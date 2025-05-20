@@ -1,13 +1,20 @@
-document.getElementById("contactForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    alert("Thank you! Your message has been sent.");
-  });
-  
-  document.getElementById("contactForm").addEventListener("submit", function (e) {
+document.querySelector("form").addEventListener("submit", function (e) {
   e.preventDefault();
-  alert("Thank you! Your message has been sent.");
-});
+  const form = e.target;
+  const data = new FormData(form);
 
-function toggleMenu() {
-  document.getElementById("navLinks").classList.toggle("active");
-}
+  fetch(form.action, {
+    method: "POST",
+    body: data,
+    headers: {
+      'Accept': 'application/json'
+    }
+  }).then(response => {
+    if (response.ok) {
+      alert("Thanks! Your message has been sent.");
+      form.reset();
+    } else {
+      alert("Oops! There was a problem.");
+    }
+  });
+});
